@@ -1,4 +1,4 @@
-import { CiMail ,CiLock, CiRead, CiUnread, CiUser } from 'react-icons/ci';
+import { CiMail ,CiLock, CiRead, CiUnread} from 'react-icons/ci';
 import { useState } from 'react';
 import { useNavigate }  from 'react-router-dom'
 

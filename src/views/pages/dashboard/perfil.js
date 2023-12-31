@@ -6,7 +6,7 @@ export default function Perfil(){
                 <div className="flex justify-between">
                 <div className="flex flex-col">
                     <div className="flex">
-                        <img src={imageLink} className="w-[84px] h-[84px] rounded-full" />
+                        <img alt="user profile" src={imageLink} className="w-[84px] h-[84px] rounded-full" />
                         <div className="flex flex-col justify-center ml-5">
                             <h1 className="text-3xl font-medium">Bom dia, André Luiz</h1>
                             <h2 className="text-blueFont text-2xl">Seja sua melhor versão</h2>
