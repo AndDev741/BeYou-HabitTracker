@@ -16,7 +16,9 @@ export default {
       colors: {
         blueFont: "#0082E1",
       },
-
+      border: {
+        
+      },
       boxShadow: {
         footerInputShadow: "0px 3.33333px 3.33333px rgba(0, 0, 0, 0.25)",
         navBtnShadow: "-1px 2px 5px 0px #f47d31",

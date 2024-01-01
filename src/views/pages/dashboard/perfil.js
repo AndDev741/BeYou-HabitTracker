@@ -1,5 +1,5 @@
 export default function Perfil(){
-    let imageLink = "https://i.pinimg.com/550x/ba/42/59/ba4259c262a72983e6dda33165cc5fd4.jpg"
+    let imageLink = "https://64.media.tumblr.com/6ef0668bfb71b05a85e6bea24a915577/c3cf49e4cb5d0e6c-20/s1280x1920/d100dc28acef3e158e455283126efe527492fb2e.jpg"
     return(
         <div className="border-solid border-[2px] border-[#0082E1] rounded-[12px] max-w-[740px] mb-2">
             <div className="m-2">
