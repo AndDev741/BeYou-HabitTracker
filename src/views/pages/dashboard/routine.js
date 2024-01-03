@@ -11,7 +11,7 @@ export default function Routine(){
                 <div className="flex flex-col m-3"> 
                     <div className="flex">
                         <h2 className="text-2xl font-bold mr-2">Rotina Diária</h2>
-                        <button><img src={editIcon} className="w-[24px]" /></button>
+                        <button><img src={editIcon} alt='edit pencil icon' className="w-[24px]" /></button>
                     </div>
                     <h4 className="text-lg text-blueFont list-item ml-4">Nome da rotina</h4>
                 </div>
@@ -27,7 +27,7 @@ export default function Routine(){
             {/* Renderização da lista */}
             <div className='ml-4'>
                 <div className='flex'>
-                    <img src={morningIcon} className="w-[30px] mr-2" />
+                    <img src={morningIcon} alt="café em computador" className="w-[30px] mr-2" />
                     <h4 className="text-lg text-blueFont font-bold">Manhã 05:00 - 12:00</h4>
                 </div>
                 <div className='flex items-center mt-4'>
@@ -45,7 +45,7 @@ export default function Routine(){
             </div>
             <div className='ml-4'>
                 <div className='flex items-center mt-4'>
-                    <img src={afternoonIcon} className="w-[35px] mr-2" />
+                    <img src={afternoonIcon} alt="café da tarde" className="w-[35px] mr-2" />
                     <h4 className="text-lg text-blueFont font-bold">Tarde 12:00 - 18:00</h4>
                 </div>
                 <div className='flex items-center mt-4'>
@@ -63,7 +63,7 @@ export default function Routine(){
             </div>
             <div className='ml-4'>
                 <div className='flex items-center mt-4'>
-                    <img src={nightIcon} className="w-[35px] mr-2" />
+                    <img src={nightIcon} alt="lua com núvem" className="w-[35px] mr-2" />
                     <h4 className="text-lg text-blueFont font-bold">Noite 18:00 - 22:00</h4>
                 </div>
                 <div className='flex items-center mt-4'>

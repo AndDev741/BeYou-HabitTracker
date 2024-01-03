@@ -15,7 +15,7 @@ export default function Infor(){
         <h2 className="text-2xl text-center font-bold mt-2">Dicas Rápidas</h2>
         <p className="text-blueFont text-center font-bold m-1">Confira este vídeo com ótimas sugestões de hábitos</p>
         <div className="border-solid border-[2px] border-[#0082E1] rounded-[12px] w-[80%] mt-3">
-          <h4 className="text-blueFont text-center font-bold m-2 underline"><a href={videoLink} target={"_blank"}>Os 10 Hábitos que mais mudaram minha vida</a></h4>
+          <h4 className="text-blueFont text-center font-bold m-2 underline"><a href={videoLink} target={"_blank"} rel={"noreferrer"}>Os 10 Hábitos que mais mudaram minha vida</a></h4>
         </div>
         <p className="text-blueFont">Clique para assistir</p>
         <h4 className="text-lg text-center mt-1 m-2">Não se esqueça de praticar e implementar na sua rotina!</h4>
