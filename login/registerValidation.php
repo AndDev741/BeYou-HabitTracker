@@ -2,7 +2,8 @@
 require_once("userDAO.php");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Credentials: true");
 
 $data = json_decode(file_get_contents("php://input"), true);
 $name = $data['name'];
@@ -35,7 +36,7 @@ function validacao() {
         echo json_encode(array('error' => $error));
         exit();
     }
-    if(strlen($name) > 255) {
+    if(strlen($name) > 55) {
         $error = "O campo nome não pode exceder 55 caracteres";
         echo json_encode(array("error" => $error));
         exit();

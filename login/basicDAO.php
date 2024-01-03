@@ -8,8 +8,7 @@ class BasicDAO{
         return $pdo;
     }
     protected function execDML($sql, ...$params){
-        global $dsn, $user, $pass;
-        $pdo = new PDO($dsn, $user, $pass, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+        $pdo = $this->getConnection();
         try{
             $stmt = $pdo->prepare($sql);
             $stmt->execute($params);
@@ -18,5 +17,7 @@ class BasicDAO{
         }
     }
 }
+
+
 
 ?>

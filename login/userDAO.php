@@ -17,6 +17,17 @@ class userDAO extends BasicDAO{
             $pdo = null;
         }
     }
+    public function fetchUserByPassword($password){
+        $sql = "SELECT email from users WHERE password = ?";
+        $pdo = $this->getConnection();
+        try{
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([$password]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        }finally{
+            $pdo = null;
+        }
+    }
 
     public function isEmailAvailable($email){
         $existingUser = $this->fetchUserByEmail($email);
@@ -24,6 +35,4 @@ class userDAO extends BasicDAO{
     }
 
 }
-
-
 ?>
