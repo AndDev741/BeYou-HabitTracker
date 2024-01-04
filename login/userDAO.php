@@ -2,9 +2,9 @@
 require_once("basicDAO.php");
 
 class userDAO extends BasicDAO{
-    public function registerUser($nome, $email, $senha){
-        $sql = "INSERT INTO users VALUES(default, ?, ?, ?)";
-        $this->execDML($sql, $nome, $email, $senha);
+    public function registerUser($name, $email, $pass){
+        $sql = "INSERT INTO users VALUES(default, ?, ?, ?) RETURNING id";
+        $this->execDML($sql, $name, $email, $pass);
     }
     public function fetchUserByEmail($email){
         $sql = "SELECT * from users WHERE email = ?";

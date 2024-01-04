@@ -16,16 +16,6 @@ class BasicDAO{
             $pdo = null;
         }
     }
-    protected function execDMLWithReturn($sql, ...$params){
-        $pdo = $this->getConnection();
-        try{
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute($params);
-            return $pdo->lastInsertId();
-        } finally {
-            $pdo = null;
-        }
-    }
 }
 
 

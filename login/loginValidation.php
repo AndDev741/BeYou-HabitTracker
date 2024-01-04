@@ -28,12 +28,15 @@ if (strlen($email) > 255 || strlen($pass) > 255) {
 else {
     $userDAO = new userDao();
     $emailFetch = $userDAO->fetchUserByEmail([$email]);
-    if(empty($emailFetch)){
+    if (empty($emailFetch)) {
         echo json_encode(array('error' => 'Email ou senha incorretos!'));
         exit();
     }
     if($emailFetch['email'] === $email && $emailFetch['password'] === $pass){
         echo json_encode(array('sucess' => 'Login efetuado com sucesso!'));
+        exit();
+    }else {
+        echo json_encode(array('error' => 'Email ou senha incorretos'));
         exit();
     }
 }
