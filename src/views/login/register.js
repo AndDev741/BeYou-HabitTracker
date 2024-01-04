@@ -9,7 +9,7 @@ export default function RegisterForm(){
     let [name, setName] = useState("");
     let [email, setEmail] = useState("");
     let [pass, setPass] = useState("");
-    //Função para mudar os icones do input de senha
+
     function handlePassword(){
         if(inputType === 'password'){
             setinputType('text');
@@ -19,7 +19,7 @@ export default function RegisterForm(){
             setPassIcon(<CiRead/>);
         }
     }
-    //Funções para atualizar na variável os dados dos inputs
+
     function changeName(e){
         setName(e.target.value);
     }
@@ -29,22 +29,21 @@ export default function RegisterForm(){
     function changePass(e){
         setPass(e.target.value);
     }
-    //Requisição para retornar uma mensagem de erro do back
+    
     function handleSubmit(e) {
         e.preventDefault();
-        // Cria um objeto com os dados do formulário
         const formData = {
-          name: encodeURIComponent(name),
-          email: encodeURIComponent(email),
-          password: encodeURIComponent(pass),
+          name: name,
+          email: email,
+          password: pass,
         };
     
-        fetch('http://localhost/ServerPHP/Models/login/validacao.php', {
+        fetch('http://localhost/ServerPHP/Models/login/registerValidation.php', {
           method: "POST",
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(formData), // Envia os dados como JSON
+          body: JSON.stringify(formData),
         })
           .then((response) => response.json())
           .then((data) => {
@@ -63,7 +62,7 @@ export default function RegisterForm(){
     return(
         <div className='flex flex-col items-center justify-center mt-4'>
             <h1 className='text-[30px] ms:text-[35px] text-center font-bold'>Se registre <span className='text-[#0082E1]'>e organize melhor sua vida!</span></h1>
-            <form method='post' action='http://localhost/ServerPHP/Models/login/validacao.php'
+            <form method='post' action='http://localhost/ServerPHP/Models/login/registerValidation.php'
             onSubmit={handleSubmit}
             className='flex flex-col items-center justify-center my-3'>
                 <div>

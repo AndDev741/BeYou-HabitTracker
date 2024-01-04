@@ -1,6 +1,6 @@
 import Info from "./info"
 import Navigation from "./navigation"
-import Perfil from "./perfil"
+import Perfil from "./perfil/perfil"
 import Routine from "./routine"
 
 export default function Dashboard(){

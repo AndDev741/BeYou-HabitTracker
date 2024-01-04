@@ -1,6 +1,8 @@
 import { CiMail ,CiLock, CiRead, CiUnread} from 'react-icons/ci';
 import { useState } from 'react';
 import { useNavigate }  from 'react-router-dom'
+import { useDispatch } from 'react-redux';
+import { emailEnter, isLogged } from './loginSlice';
 
 export default function LoginForm(){
     let navigate = useNavigate();
@@ -10,6 +12,7 @@ export default function LoginForm(){
     let [pass, setPass] = useState('');
     let [error, setError] = useState('');
     let [sucess, setSucess] = useState('');
+    const dispatch = useDispatch();
     function handleEmail(e){
         setEmail(e.target.value);
     }
@@ -23,23 +26,38 @@ export default function LoginForm(){
             email: email,
             password: pass
         };
-
-        fetch('http://localhost/ServerPHP/Models/login/validacaoLogin.php', {
+        fetch('http://localhost/ServerPHP/Models/login/loginValidation.php', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(formData)
         })
         .then((response) => response.json())
         .then((data) => {
-            console.log(formData);
             if(data.error){
                 setError(data.error);
                 setSucess("");
             } 
             else if(data.sucess){
-                setSucess(data.sucess);
-                setError("");
-                navigate("/dashboard")
+                dispatch(emailEnter(email));
+                dispatch(isLogged(true));
+                fetch('http://localhost/ServerPHP/Models/perfil/perfilData.php', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(email)
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    if(data.error){
+                        setError('Falha no login');
+                        setSucess('');
+                    } else {
+                        setSucess(data.sucess);
+                        setError("");
+                        navigate("/dashboard");
+                    }
+                })
+
+                
             }
         })
         .catch((error) => {
@@ -61,7 +79,7 @@ export default function LoginForm(){
             <h1 className='text-[35px] ms:text-[40px] text-center font-bold'>Bem vindo <span className='text-[#0082E1]'>de volta!</span></h1>
             <form 
             method='post'
-            action='http://localhost/ServerPHP/Models/login/validacaoLogin.php' 
+            action='http://localhost/ServerPHP/Models/login/loginValidation.php' 
             onSubmit={handleSubmit}
             className='flex flex-col items-center justify-center mt-10'>
                 <div>
