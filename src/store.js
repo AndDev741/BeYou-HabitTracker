@@ -3,10 +3,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import rootReducer from "./rootReducer";
 
 const store = configureStore({
-    reducer: {
-        reducer: rootReducer,
-        enhancers: [composeWithDevTools()],
-    }
-})
+    reducer: rootReducer,
+}, [composeWithDevTools()]);
 
 export default store;

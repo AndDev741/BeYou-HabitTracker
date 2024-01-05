@@ -74,6 +74,7 @@ export default function RegisterForm(){
                         onChange={changeName}
                         maxLength={'55'}
                         placeholder='Qual o seu nome?'
+                        required
                         className='w-[55vw] sm:w-[60vw] h-[60px] ms:w-[280px]  ms:h-[44px] text-2xl ms:text-xl placeholder:text-[#777171] focus:outline-none'/>
                     </label>
                     <label className='flex items-center border-solid border-2 border-[#0082E1] rounded-[6px] my-3'>
@@ -99,9 +100,6 @@ export default function RegisterForm(){
                         className='w-[55vw] sm:w-[60vw] h-[60px] ms:w-[280px]  ms:h-[44px] text-2xl ms:text-xl placeholder:text-[#777171] focus:outline-none'/>
                         <span onClick={handlePassword} className='text-[26px] cursor-pointer mx-2'>{passIcon}</span>
                     </label>
-                </div>
-                <div className='mt-1'>
-                    <a href='/' className='text-xl text-[#0082E1] cursor-pointer underline'>Esqueceu a senha?</a>
                 </div>
                 <div>
                     <input type={'submit'}value={'Registrar'} className='w-[256px] h-[43px] text-2xl text-white font-medium bg-[#0082E1] hover:bg-[#2b7fbb] rounded-[20px] cursor-pointer mt-4'/>

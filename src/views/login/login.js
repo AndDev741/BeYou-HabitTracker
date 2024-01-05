@@ -19,7 +19,9 @@ export default function LoginForm(){
     function handlePass(e){
         setPass(e.target.value)
     }
-
+    const emailData = {
+        email: email
+    }
     function handleSubmit(e){
         e.preventDefault();
         const formData = {
@@ -40,24 +42,9 @@ export default function LoginForm(){
             else if(data.sucess){
                 dispatch(emailEnter(email));
                 dispatch(isLogged(true));
-                fetch('http://localhost/ServerPHP/Models/perfil/perfilData.php', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify(email)
-                })
-                .then((response) => response.json())
-                .then((data) => {
-                    if(data.error){
-                        setError('Falha no login');
-                        setSucess('');
-                    } else {
-                        setSucess(data.sucess);
-                        setError("");
-                        navigate("/dashboard");
-                    }
-                })
-
-                
+                setSucess(data.sucess);
+                setError("");
+                navigate("/dashboard");
             }
         })
         .catch((error) => {
