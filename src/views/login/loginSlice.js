@@ -1,9 +1,30 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+function saveState(state){
+    try{
+        const serializedState = JSON.stringify(state);
+        localStorage.setItem('redux-user-state', serializedState);
+    }catch(err){
+        console.error(err);
+    }
+};
+
+function loadState(){
+    try{
+        const serializedState = localStorage.getItem('redux-user-state');
+        if(serializedState === null){
+            return undefined;
+        }
+        return JSON.parse(serializedState);
+    }catch(err){
+        console.error(err);
+    }
+}
+
+const initialState = loadState() || {
     email: '',
     logged: false
-}
+};
 
 const perfilSlice = createSlice({
     name: 'logged',
@@ -11,11 +32,15 @@ const perfilSlice = createSlice({
     reducers: {
         emailEnter(state, action){
             const email = action.payload;
-            state.email = email;
+            saveState(state);
+            return {...state, email}
+            
         },
         isLogged(state, action){
             const logged = action.payload;
-            state.logged = logged;
+            saveState(state);
+            return {...state, logged}
+            
         },
         logout(state){
             state.email = '';

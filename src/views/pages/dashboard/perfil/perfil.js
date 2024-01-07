@@ -5,7 +5,8 @@ import { authorEnter, constanceEnter, img_linkEnter, nameEnter, textEnter } from
 export default function Perfil(){
     const dispatch = useDispatch();
     let email = useSelector(state => state.login.email);
-    const [perfil , setPerfil] = useState({name: '', text: '', constace: '', author: '', img_link: ''});
+    const [perfil , setPerfil] = useState({name: '', text: '', constance: 0, author: '', img_link: ''});
+    
     useEffect(() => {
         function getData(){
             fetch('http://localhost/ServerPHP/Models/perfil/getData.php', {
@@ -24,21 +25,23 @@ export default function Perfil(){
                 dispatch(authorEnter(data.author));
                 dispatch(constanceEnter(data.constance));
                 dispatch(img_linkEnter(data.img_link));
-                //Organizar os dados do redux no state perfil
-              
             }
                 })
             }
         getData();
     }, [])
+
     let name = useSelector(state => state.perfil.name);
     let text = useSelector(state => state.perfil.text);
     let author = useSelector(state => state.perfil.author);
     let constance = useSelector(state => state.perfil.constance);
     let img_link = useSelector(state => state.perfil.img_link);
+
     useEffect(() => {
-        setPerfil({name: name, text: text, constace: constance, author: author, img_link: img_link});
-    }, []);
+        setPerfil({name: name, text: text, constance: constance, author: author, img_link: img_link});
+    }, [name, text, constance, author, img_link]);
+    console.log(perfil)
+
     return(
         <div className="border-solid border-[2px] border-[#0082E1] rounded-[12px] max-w-[740px] mb-2">
             <div className="m-2">
