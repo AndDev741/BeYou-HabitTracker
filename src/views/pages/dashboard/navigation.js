@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import habitsIcon from '../../assetsSVG/habitsIcon.svg'
 import tasksIcon from '../../assetsSVG/taskIcon.svg'
 import goalsIcon from '../../assetsSVG/goalsIcon.svg'
@@ -38,10 +39,12 @@ export default function Navigation(){
                 </button>
             </div>
             <div className="border-solid border-[2px] border-[#0082E1] rounded-[6px] rounded-r-[25px] w-[184px] h-[50px] mt-12 ">
-                <button className='flex items-center mt-[6px]'>
-                    <img alt='configuration icon' src={configIcon} className="w-[35px] ml-1" />
-                    <p className='text-[17px] font-medium ml-3'>Configurações</p>
-                </button>
+                <Link to={'/settings'}>
+                    <button className='flex items-center mt-[6px]'>
+                        <img alt='configuration icon' src={configIcon} className="w-[35px] ml-1" />
+                        <p className='text-[17px] font-medium ml-3'>Configurações</p>
+                    </button>
+                </Link>
             </div>
         </div>
     )
