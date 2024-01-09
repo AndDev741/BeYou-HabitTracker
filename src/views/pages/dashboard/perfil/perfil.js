@@ -4,43 +4,48 @@ import { authorEnter, constanceEnter, img_linkEnter, nameEnter, textEnter } from
 
 export default function Perfil(){
     const dispatch = useDispatch();
-    let email = useSelector(state => state.login.email);
     const [perfil , setPerfil] = useState({name: '', text: '', constance: 0, author: '', img_link: ''});
-    
-    useEffect(() => {
-        function getData(){
-            fetch('http://localhost/ServerPHP/Models/perfil/getData.php', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({email: email})
-            })
-            .then((response) => response.json())
-            .then((data) => {
-            if(data.error){
-                console.log(data.error);
-            }else {
-                data = data.data;
-                dispatch(nameEnter(data.name));
-                dispatch(textEnter(data.text));
-                dispatch(authorEnter(data.author));
-                dispatch(constanceEnter(data.constance));
-                dispatch(img_linkEnter(data.img_link));
-            }
-                })
-            }
-        getData();
-    }, [])
-
+    let email = useSelector(state => state.login.email);
     let name = useSelector(state => state.perfil.name);
     let text = useSelector(state => state.perfil.text);
     let author = useSelector(state => state.perfil.author);
     let constance = useSelector(state => state.perfil.constance);
     let img_link = useSelector(state => state.perfil.img_link);
 
+    //clock
+    const date = new Date();
+    const [hours, setHours] = useState(date.getHours());
+    const [minutes, setMinutes] = useState(date.getMinutes());
+    let halfMinute = 30000
+    setInterval(() => {
+        setHours(date.getHours());
+        setMinutes(date.getMinutes());
+    }, halfMinute);
+    
+    useEffect(() => {
+        fetch('http://localhost/ServerPHP/Models/perfil/getData.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({email: email})
+        })
+        .then((response) => response.json())
+        .then((data) => {
+        if(data.error){
+            console.log(data.error);
+        }else {
+            data = data.data;
+            dispatch(nameEnter(data.name));
+            dispatch(textEnter(data.text));
+            dispatch(authorEnter(data.author));
+            dispatch(constanceEnter(data.constance));
+            dispatch(img_linkEnter(data.img_link));
+        }
+            })
+    }, [email, dispatch])
+
     useEffect(() => {
         setPerfil({name: name, text: text, constance: constance, author: author, img_link: img_link});
     }, [name, text, constance, author, img_link]);
-    console.log(perfil)
 
     return(
         <div className="border-solid border-[2px] border-[#0082E1] rounded-[12px] max-w-[740px] mb-2">
@@ -69,7 +74,7 @@ export default function Perfil(){
                     </div>
                     <div className="border-solid border-[2px] border-[#0082E1] w-[110px] rounded-[6px] mt-2">
                         <div className="flex flex-col items-center ustify-center m-2">
-                            <p className="font-medium text-lg">09:50</p>
+                            <p className="font-medium text-lg">{`${hours < 10 ? `0${hours}` : hours} : ${minutes < 10 ? `0${minutes}` : minutes}`}</p>
                         </div>
                     </div>
                 </div>
