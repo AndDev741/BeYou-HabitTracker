@@ -18,8 +18,11 @@ export default function Perfil(){
     const [minutes, setMinutes] = useState(date.getMinutes());
     let halfMinute = 30000
     setInterval(() => {
+        const date = new Date();
         setHours(date.getHours());
         setMinutes(date.getMinutes());
+        console.log(hours);
+        console.log(minutes);
     }, halfMinute);
     
     useEffect(() => {
