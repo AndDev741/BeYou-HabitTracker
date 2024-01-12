@@ -12,6 +12,8 @@ export default function AddHabit(){
     let [category, setCategory] = useState('professional');
     let [weekDays, setWeekDays] = useState(['monday']);
     let [description, setDescription] = useState('');
+    const [error, setError] = useState('');
+    const [succes, setSucess] = useState('');
     
     function handleName(e){
         setName(e.target.value);
@@ -36,17 +38,39 @@ export default function AddHabit(){
     function handleDescription(e){
         setDescription(e.target.value);
     }
-
-    const data = {
-        name: name,
-        importance: importance,
-        dificulty: dificulty,
-        category: category,
-        weekDays: weekDays,
-        description: description
-    }
-
-    console.log(data)
+    function handleSubmit(e) {
+        e.preventDefault();
+        const Habitsdata = {
+            name: name,
+            importance: importance,
+            dificulty: dificulty,
+            category: category,
+            weekDays: weekDays,
+            description: description
+        }
+    
+        fetch('http://localhost/ServerPHP/Models/habits/habitsRegister.php', {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(Habitsdata),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.error) {
+              setError(data.error);
+              setSucess("");
+            } else if(data.success) {
+              setSucess(data.success);
+              setError("");
+            }
+          })
+          .catch((error) => {
+            console.error('Erro na requisição', error.message);
+          });
+      }
+   
 
     return(
             <div className="flex flex-col items-center border-solid border-[2px] border-[#0082E1] rounded-[12px] w-[500px] h-[100%] mr-4">
