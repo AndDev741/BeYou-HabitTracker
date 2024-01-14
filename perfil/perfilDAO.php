@@ -8,15 +8,15 @@ class perfilDAO extends BasicDAO{
         $this->execDML($sql, $name, $id);
     }
     public function updateTextandAuthor($text, $author, $id){
-        $sql = "UPDATE user_info set text = ?, author = ? where usuario_id = ?";
+        $sql = "UPDATE perfil_info set text = ?, author = ? where user_id = ?";
         $this->execDML($sql, $text, $author, $id);
     }
     public function updateImg_link($img_link, $id){
-        $sql = "UPDATE user_info set img_link = ? where usuario_id = ?";
+        $sql = "UPDATE perfil_info set img_link = ? where user_id = ?";
         $this->execDML($sql, $img_link, $id);
     }
     public function getData($id){
-        $sql = "SELECT * from user_info WHERE usuario_id = ?";
+        $sql = "SELECT * from perfil_info WHERE user_id = ?";
         $pdo = $this->getConnection();
         try{
             $stmt = $pdo->prepare($sql);

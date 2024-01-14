@@ -1,7 +1,8 @@
 <?php 
 require_once("basicDAO.php");
 
-class userDAO extends BasicDAO{
+class getID extends BasicDAO{
+
     public function fetchUserByEmail($email){
         $sql = "SELECT id from users WHERE email = ?";
         $pdo = $this->getConnection();
@@ -14,4 +15,5 @@ class userDAO extends BasicDAO{
         }
     }
 }
+
 ?>
