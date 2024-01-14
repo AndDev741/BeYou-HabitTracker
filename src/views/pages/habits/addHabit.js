@@ -103,6 +103,7 @@ export default function AddHabit(){
                                 </label>
                                 <input 
                                 type='text'
+                                maxLength={55}
                                 value={name}
                                 onChange={handleName}
                                 name="name"
@@ -118,7 +119,7 @@ export default function AddHabit(){
                                 <label htmlFor='importance'>
                                     <img src={importanceIcon} alt="importance icon" className="w-[30px] h-[30px] mx-2" />
                                 </label>
-                                <select name='importance' id='importance' form='habitsForm' 
+                                <select name='importance' id='importance' form='habitsForm'
                                 value={importance} 
                                 onChange={handleImportance}
                                 className='text-2xl my-[9px]'>
@@ -164,6 +165,17 @@ export default function AddHabit(){
                                     <option value='estudos'>Estudos</option>
                                     <option value='espirito'>Espirito</option>
                                     <option value='esportes'>Esportes</option>
+                                    <div className='flex justify-center items-center m-2'>
+                                    <input 
+                                    type='checkbox'
+                                    value="tuesday"
+                                    checked={weekDays.includes('tuesday')}
+                                    onChange={handleWeekDays}
+                                    id='tuesday' 
+                                    className='w-[25px] h-[25px] mr-2 cursor-pointer'
+                                    />                        
+                                    <label htmlFor='tuesday' className="text-2xl cursor-pointer">Terça</label>
+                                </div>
                                 </select>
                             </div>
                         </div>
