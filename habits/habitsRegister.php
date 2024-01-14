@@ -22,6 +22,14 @@ if(empty($name) || empty($importance) || empty($dificulty) || empty($category) |
     $error = "Por favor preencha todos os campos";
     echo json_encode(array('error' => $error));
     exit();
+}else if(strlen($name) > 55){
+    $error = "O nome do hábito tem que ser menor que 55 caracteres";
+    echo json_encode(array('error' => $error));
+    exit();
+}else if(strlen($description) > 255){
+    $error = "A descrição tem que ser menor que 255 caracteres";
+    echo json_encode(array('error' => $error));
+    exit();
 }else{
     $getID = new getID();
     $id = $getID->fetchUserByEmail([$email]);
