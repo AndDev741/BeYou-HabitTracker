@@ -21,8 +21,6 @@ export default function Perfil(){
         const date = new Date();
         setHours(date.getHours());
         setMinutes(date.getMinutes());
-        console.log(hours);
-        console.log(minutes);
     }, halfMinute);
     
     useEffect(() => {

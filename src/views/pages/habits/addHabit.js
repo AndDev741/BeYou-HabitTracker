@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import coffeIcon from '../../assetsSVG/coffeIcon.svg';
 import importanceIcon from '../../assetsSVG/importanceIcon.svg';
 import categoryIcon from '../../assetsSVG/categoryIcon.svg';
@@ -6,6 +7,8 @@ import dificultyIcon from '../../assetsSVG/dificultyIcon.svg';
 import timeIcon from '../../assetsSVG/timeIcon.svg';
 
 export default function AddHabit(){
+    let email = useSelector(state => state.login.email);
+    console.log(email);
     let [name, setName] = useState('');
     let [importance, setImportance] = useState('lv1');
     let [dificulty, setDificulty] = useState('easy');
@@ -13,7 +16,7 @@ export default function AddHabit(){
     let [weekDays, setWeekDays] = useState(['monday']);
     let [description, setDescription] = useState('');
     const [error, setError] = useState('');
-    const [succes, setSucess] = useState('');
+    const [success, setSucess] = useState('');
     
     function handleName(e){
         setName(e.target.value);
@@ -38,9 +41,12 @@ export default function AddHabit(){
     function handleDescription(e){
         setDescription(e.target.value);
     }
+
     function handleSubmit(e) {
         e.preventDefault();
+        weekDays = weekDays.join(', ');
         const Habitsdata = {
+            email: email,
             name: name,
             importance: importance,
             dificulty: dificulty,
@@ -64,6 +70,15 @@ export default function AddHabit(){
             } else if(data.success) {
               setSucess(data.success);
               setError("");
+              setName('');
+              setCategory('professional');
+              setDescription('');
+              setDificulty('easy');
+              setImportance('lv1');
+              setWeekDays('monday')
+            }else {
+                setSucess('');
+                setError('Ocorreu um erro inesperado');
             }
           })
           .catch((error) => {
@@ -76,7 +91,8 @@ export default function AddHabit(){
             <div className="flex flex-col items-center border-solid border-[2px] border-[#0082E1] rounded-[12px] w-[500px] h-[100%] mr-4">
                 <h2 className="text-3xl font-medium m-4">Adicione um hábito novo</h2>
                 <div className="border-solid border-[1px] border-[#0082E1] w-[100%]"></div>
-                <form className="flex flex-col justify-evenly" id='habitsForm'>
+                <form className="flex flex-col justify-evenly" id='habitsForm' 
+                action='http://localhost/ServerPHP/Models/habits/habitsRegister.php' onSubmit={handleSubmit}>
                     <div className='flex my-2'>
                         <div className="flex flex-col mx-2">
                             <label className="text-2xl text-blueFont font-medium my-2" 
@@ -263,6 +279,8 @@ export default function AddHabit(){
                         className='w-[246px] h-[53px] text-white text-2xl font-bold bg-[#0082E1] rounded-[12px] cursor-pointer'
                         />
                     </div>
+                    <p className='text-[18px] sm:text-xl text-center text-[#e15200] underline font-bold'>{error}</p>
+                    <p className='text-[18px] sm:text-xl text-center text-[#0082E1] underline font-bold mb-2'>{success}</p>
                 </form>
             </div>
     )
