@@ -44,7 +44,9 @@ export default function AddHabit(){
 
     function handleSubmit(e) {
         e.preventDefault();
-        weekDays = weekDays.join(', ');
+        if(weekDays.length > 1){
+            weekDays = weekDays.join(', ');
+        }
         const Habitsdata = {
             email: email,
             name: name,
@@ -54,7 +56,7 @@ export default function AddHabit(){
             weekDays: weekDays,
             description: description
         }
-    
+        
         fetch('http://localhost/ServerPHP/Models/habits/habitsRegister.php', {
           method: "POST",
           headers: {
@@ -85,10 +87,10 @@ export default function AddHabit(){
             console.error('Erro na requisição', error.message);
           });
       }
-   
+      
 
     return(
-            <div className="flex flex-col items-center border-solid border-[2px] border-[#0082E1] rounded-[12px] w-[500px] h-[100%] mr-4">
+            <div className="flex flex-col items-center border-solid border-[2px] border-[#0082E1] rounded-[12px] w-[500px] mr-4">
                 <h2 className="text-3xl font-medium m-4">Adicione um hábito novo</h2>
                 <div className="border-solid border-[1px] border-[#0082E1] w-[100%]"></div>
                 <form className="flex flex-col justify-evenly" id='habitsForm' 
@@ -108,6 +110,7 @@ export default function AddHabit(){
                                 onChange={handleName}
                                 name="name"
                                 id="name"
+                                required
                                 placeholder='Estudar algo'
                                 className="w-[100%] my-2 ml-2 text-2xl placeholder:text-[#777171] focus:outline-none" />
                             </div>
