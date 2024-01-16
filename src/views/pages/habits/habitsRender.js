@@ -1,9 +1,13 @@
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import ReturnButton from "../components/returnButton";
 import AddHabit from "./addHabit";
+import EditHabit from "./editHabits";
 import HabitsList from "./habitsList";
 
 
 export default function HabitsRender(){
+    const isEditMode = useSelector(state => state.habits.editModeOn);
     return(
         <div className="mb-4">
             <ReturnButton/>
@@ -12,7 +16,12 @@ export default function HabitsRender(){
                     <HabitsList/>
                 </div>
                 <div className="">
-                    <AddHabit/>
+                    <div className={`${isEditMode === true ? 'hidden' : 'block'}`}>
+                        <AddHabit/>
+                    </div>
+                    <div className={`${isEditMode === true ? 'block' : 'hidden'}`}>
+                        <EditHabit/>
+                    </div>
                 </div>
             </div>
         </div>
