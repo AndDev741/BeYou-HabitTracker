@@ -16,28 +16,30 @@ export default function EditHabit(){
     let HabitDificulty = useSelector(state => state.habits.dificulty);
     let HabitCategory = useSelector(state => state.habits.category);
     let HabitDescription = useSelector(state => state.habits.description);
-    let HabitWeekDays = useSelector(state => state.habits.weekDays);
+    let HabitWeekDays = useSelector(state => state.habits.weekDays);    
     let habitImportance = useSelector(state => state.habits.importance);
     let habitID = useSelector(state => state.habits.id);
 
+    const [error, setError] = useState('');
+    const [success, setSucess] = useState('');
+    const [deleteMessage, setDeleteMessage] = useState("");
+    let [weekDays, setWeekDays] = useState([]);
     const [name, setName] = useState('');
     const [importance, setImportance] = useState('');
     const [dificulty, setDificulty] = useState('');
     const [category, setCategory] = useState('');
-    const [weekDays, setWeekDays] = useState([]);
     const [description, setDescription] = useState('');
-    console.log(HabitWeekDays)
-    useEffect(() => {
+
+    useEffect(() => { 
+        console.log('reste');
         setName(Habitname);
         setImportance(habitImportance);
         setDificulty(HabitDificulty);
         setCategory(HabitCategory);
         setWeekDays(HabitWeekDays);
         setDescription(HabitDescription)
-        
     }, [Habitname, HabitCategory, HabitDescription, HabitDificulty, HabitWeekDays])
-    const [error, setError] = useState('');
-    const [success, setSucess] = useState('');
+    
     
     function handleName(e){
         setName(e.target.value);
@@ -61,15 +63,21 @@ export default function EditHabit(){
     }
     function handleDescription(e){
         setDescription(e.target.value);
+    }   
+
+    const isEditMode = useSelector(state => state.habits.editModeOn);
+    function dispatchEditMode(){
+        if(isEditMode === true){
+            dispatch(editMode(false));
+        }
     }
 
     function handleSubmit(e) {
         e.preventDefault();
-        if(weekDays.length > 1){
-            weekDays = weekDays.join(', ');
-        }
+        weekDays = weekDays.join(', ');
         const Habitsdata = {
             email: email,
+            habitID: habitID,
             name: name,
             importance: importance,
             dificulty: dificulty,
@@ -77,8 +85,8 @@ export default function EditHabit(){
             weekDays: weekDays,
             description: description
         }
-        
-        fetch('http://localhost/ServerPHP/Models/habits/habitsRegister.php', {
+        //edit
+        fetch('http://localhost/ServerPHP/Models/habits/editHabits.php', {
           method: "POST",
           headers: {
             'Content-Type': 'application/json',
@@ -93,12 +101,6 @@ export default function EditHabit(){
             } else if(data.success) {
               setSucess(data.success);
               setError("");
-              setName('');
-              setCategory('professional');
-              setDescription('');
-              setDificulty('easy');
-              setImportance('lv1');
-              setWeekDays('monday')
             }else {
                 setSucess('');
                 setError('Ocorreu um erro inesperado');
@@ -108,22 +110,57 @@ export default function EditHabit(){
             console.error('Erro na requisição', error.message);
           });
       }
-
-    const isEditMode = useSelector(state => state.habits.editModeOn);
-    function dispatchEditMode(){
-        if(isEditMode === true){
-            dispatch(editMode(false));
-        }
-    }
+      //delete
+      function handleDelete(e){
+        e.preventDefault();
+        fetch('http://localhost/ServerPHP/Models/habits/deleteHabit.php', {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({habitID: habitID})
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            if(data.error){
+                setSucess("");
+                setError("");
+                setDeleteMessage(data.error);
+                
+            }else if(data.success){
+                setError("");
+                setSucess("");
+                setDeleteMessage(data.success);
+                setName("");
+                setImportance("lv1")
+                setDificulty("easy");
+                setCategory("professional");
+                setWeekDays(['monday']);
+                setDescription("");
+            }
+        })
+      }
+      if(deleteMessage.length > 1){
+        setTimeout(() => {
+            setDeleteMessage("");
+          }, 3000);
+      }
       
 
     return(
             <div className="flex flex-col items-center border-solid border-[2px] border-[#0082E1] rounded-[12px] w-[500px] mr-4">
-                <div className='flex w-[100%] justify-between'>
-                    <button onClick={dispatchEditMode}><img src={backFormIcon} alt="coffe icon" className="w-[40px] h-[40px] ml-2 mt-2" /></button>
+                <div className='flex w-[100%] justify-between items-center'>
+                <button onClick={dispatchEditMode} action="http://localhost/ServerPHP/Models/habits/deleteHabit.php">
+                    <img src={backFormIcon} alt="coffe icon" className="w-[40px] h-[40px] ml-2 mt-2" />
+                </button>
+                <p className='text-[18px] sm:text-xl text-center text-[#0082E1] underline font-bold mb-2'>{deleteMessage}</p>
+                <form onSubmit={handleDelete}>
                     <button><img src={deleteIcon} alt="coffe icon" className="w-[40px] h-[40px] mr-2 mt-2" /></button>
+                </form>
+                    
+                    
                 </div>
-                <h2 className="text-3xl font-medium my-2 text-center">Editando o hábito <span className='text-blueFont'>{Habitname}</span></h2>
+                <h2 className="text-3xl font-medium my-2 text-center">Editando o hábito <span className='text-blueFont'>{name}</span></h2>
                 <div className="border-solid border-[1px] border-[#0082E1] w-[100%]"></div>
                 <form className="flex flex-col justify-evenly" id='habitsForm' 
                 action='http://localhost/ServerPHP/Models/habits/habitsRegister.php' onSubmit={handleSubmit}>
@@ -142,7 +179,6 @@ export default function EditHabit(){
                                 onChange={handleName}
                                 name="name"
                                 id="name"
-                                required
                                 placeholder='Estudar algo'
                                 className="w-[100%] my-2 ml-2 text-2xl placeholder:text-[#777171] focus:outline-none" />
                             </div>

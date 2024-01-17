@@ -8,7 +8,6 @@ import timeIcon from '../../assetsSVG/timeIcon.svg';
 
 export default function AddHabit(){
     let email = useSelector(state => state.login.email);
-    console.log(email);
     let [name, setName] = useState('');
     let [importance, setImportance] = useState('lv1');
     let [dificulty, setDificulty] = useState('easy');
@@ -32,19 +31,21 @@ export default function AddHabit(){
     }
     function handleWeekDays(e){
         const { value, checked} = e.target;
+        
         if(checked){
             setWeekDays([...weekDays, value]);
         } else {
             setWeekDays(weekDays.filter((day) => day !== value));
         }
     }
+    console.log(weekDays)
     function handleDescription(e){
         setDescription(e.target.value);
     }
 
     function handleSubmit(e) {
         e.preventDefault();
-        if(weekDays.length > 1){
+        if(weekDays.length >= 1){
             weekDays = weekDays.join(', ');
         }
         const Habitsdata = {
@@ -67,18 +68,19 @@ export default function AddHabit(){
           .then((response) => response.json())
           .then((data) => {
             if (data.error) {
-              setError(data.error);
-              setSucess("");
+                setError('');
+                setError(data.error);
+                setSucess("");
             } else if(data.success) {
-              setSucess(data.success);
-              setError("");
-              setName('');
-              setCategory('professional');
-              setDescription('');
-              setDificulty('easy');
-              setImportance('lv1');
-              setWeekDays('monday')
-            }else {
+                setSucess(data.success);
+                setError("");
+                setName('');
+                setCategory('professional');
+                setDescription('');
+                setDificulty('easy');
+                setImportance('lv1');
+                setWeekDays('monday')
+                }else {
                 setSucess('');
                 setError('Ocorreu um erro inesperado');
             }
@@ -87,6 +89,7 @@ export default function AddHabit(){
             console.error('Erro na requisição', error.message);
           });
       }
+     
       
 
     return(

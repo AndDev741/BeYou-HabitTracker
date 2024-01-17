@@ -30,7 +30,7 @@ export default function HabitsList(){
     return(
         <div className="flex flex-col border-solid border-[2px] border-[#0082E1] rounded-[12px] w-[741px] min-h-[600px] ml-2"> 
             <h1 className="text-3xl font-medium m-4">Seus hábitos</h1>
-            <div className="mx-2 flex flex-wrap justify-between">
+            <div className="flex flex-wrap">
                 {habitsData.length > 0 ? (
                     habitsData.map((habit) => (
                         <HabitDiv key={habit.id} name={habit.name} importance={habit.importance} dificulty={habit.dificulty} constance={habit.frequency} category={habit.category} weekDays={habit.weekdays} startDate={habit.startdate} description={habit.description} habitID={habit.id}/>
@@ -38,7 +38,7 @@ export default function HabitsList(){
                 ) : (
                     <p>Loading...</p>
                 )}
-            </div>+
+            </div>
         </div>
     )
 }
@@ -55,6 +55,7 @@ function HabitDiv({name, constance, importance, dificulty, category, weekDays, s
         dispatch(editImportance(importance));
         dispatch(editDificulty(dificulty));
         dispatch(editCategory(category));
+        weekDays = weekDays.split(',').map(day => day.trim());
         dispatch(editWeekDays(weekDays));
         dispatch(editDescription(description));
         dispatch(getHabitId(habitID));
@@ -66,7 +67,7 @@ function HabitDiv({name, constance, importance, dificulty, category, weekDays, s
         
     }
     return(
-        <div className="flex flex-col border-solid border-[2px] border-[#0082E1] rounded-[6px] w-[236px] h-[100%] my-2">
+        <div className="flex flex-col border-solid border-[2px] border-[#0082E1] rounded-[6px] w-[236px] h-[100%] my-2 mx-1">
             <div className="flex justify-between">
                 <h1 className="text-xl font-bold text-blueFont ml-2 mt-1">{name}</h1>
                 <button onClick={dispatchEditMode}><img src={editIcon} alt='edit pencil icon' className="w-[24px] mr-2 mt-1" /></button>
