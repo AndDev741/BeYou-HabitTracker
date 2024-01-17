@@ -19,6 +19,16 @@ class habitsDAO extends BasicDAO{
             $pdo = null;
         }
     }
+    
+    public function updateHabit($name, $importance, $dificulty, $category, $weekDays, $description, $habitID){
+        $sql = "UPDATE habits SET name = ?, importance = ?, dificulty = ?, category = ?, weekdays = ?, description = ? where id = ?";
+        $this->execDML($sql, $name, $importance, $dificulty, $category, $weekDays, $description, $habitID);
+    }
+
+    public function deleteHabit($habitID){
+        $sql = "DELETE FROM habits WHERE id = ?";
+        $this->execDML($sql, $habitID);
+    }
 }
 
 ?>

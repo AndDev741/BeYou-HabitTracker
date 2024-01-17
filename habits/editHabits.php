@@ -4,10 +4,9 @@ header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Access-Control-Allow-Credentials: true");
 require_once("habitsDAO.php");
-require_once("getID.php");
 
 $data = json_decode(file_get_contents("php://input"), true);
-$email = $data['email'];
+$habitID = $data['habitID'];
 $name = $data['name'];
 $importance = $data['importance'];
 $dificulty = $data['dificulty'];
@@ -34,15 +33,11 @@ if(empty($name) || empty($importance) || empty($dificulty) || empty($category)){
     echo json_encode(array('error' => $error));
     exit();
 }else{
-    $getID = new getID();
-    $id = $getID->fetchUserByEmail([$email]);
-    $id = $id['id'];
     $newHabit = new habitsDAO();
-    $registerHabit = $newHabit->registerUser($id, $name, $importance, $dificulty, $category, $weekDays, $description);
-    $sucess ="Habito criado com sucesso!";
+    $registerHabit = $newHabit->updateHabit($name, $importance, $dificulty, $category, $weekDays, $description, $habitID);
+    $sucess ="Editado com sucesso!";
     echo json_encode(array('success' => $sucess));
     exit();
 }
-
 
 ?>
