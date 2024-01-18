@@ -37,7 +37,7 @@ export default function HabitsList(){
                         <HabitDiv key={habit.id} name={habit.name} importance={habit.importance} dificulty={habit.dificulty} constance={habit.frequency} category={habit.category} weekDays={habit.weekdays} startDate={habit.startdate} description={habit.description} habitID={habit.id}/>
                     ))
                 ) : (
-                    <p>Loading...</p>
+                    <h2 className="m-4 text-2xl text-blueFont">Seus hábitos irão aparecer aqui assim que criados!</h2>
                 )}
             </div>
         </div>
@@ -47,6 +47,26 @@ export default function HabitsList(){
 function HabitDiv({name, constance, importance, dificulty, category, weekDays, startDate, description, habitID}){
     const dispatch = useDispatch();
     const isEditMode = useSelector(state => state.habits.editModeOn);
+    const [importanceColor, setImportanceColor] = useState('');
+
+    useEffect(() => {
+        switch(importance){
+            case 'nível 1':
+                setImportanceColor('#0082E1');
+                break;
+            case 'nível 2':
+                setImportanceColor("#e7a13c")
+                break;
+            case 'nível 3':
+                setImportanceColor("#e7723c")
+                break;
+            case 'nível 4':
+                setImportanceColor("#e74c3c");
+                break
+            default:
+                setImportanceColor("#0082E1")
+        }
+    }, [importance])
     
     function dispatchEditMode(){
         if(isEditMode === false){
@@ -58,7 +78,6 @@ function HabitDiv({name, constance, importance, dificulty, category, weekDays, s
         dispatch(editImportance(importance));
         dispatch(editDificulty(dificulty));
         dispatch(editCategory(category));
-        
         dispatch(editWeekDays(weekDays));
         dispatch(editDescription(description));
         dispatch(getHabitId(habitID));
@@ -92,7 +111,7 @@ function HabitDiv({name, constance, importance, dificulty, category, weekDays, s
             </div>
             <div className="flex justify-between">
                 <div className="flex items-center ml-2 mt-2">
-                    <div className="w-[30px] h-[30px] rounded-full bg-red-400"></div>
+                    <div className={`w-[30px] h-[30px] rounded-full bg-[${importanceColor}]`}></div>
                     <p className="text-xl font-medium ml-1">{importance}</p>
                 </div>
                 <div className="flex flex-col items-center border-solid border-[2px] border-[#0082E1] rounded-[6px] mr-2 mb-2">
