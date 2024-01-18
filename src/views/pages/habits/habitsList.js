@@ -27,6 +27,7 @@ export default function HabitsList(){
             }
         })
     }, []);
+
     return(
         <div className="flex flex-col border-solid border-[2px] border-[#0082E1] rounded-[12px] w-[741px] min-h-[600px] ml-2"> 
             <h1 className="text-3xl font-medium m-4">Seus hábitos</h1>
@@ -46,16 +47,18 @@ export default function HabitsList(){
 function HabitDiv({name, constance, importance, dificulty, category, weekDays, startDate, description, habitID}){
     const dispatch = useDispatch();
     const isEditMode = useSelector(state => state.habits.editModeOn);
+    
     function dispatchEditMode(){
         if(isEditMode === false){
             dispatch(editMode(true));
+            weekDays = weekDays.split(',').map(day => day.trim());
         }
         console.log(isEditMode)
         dispatch(editName(name));
         dispatch(editImportance(importance));
         dispatch(editDificulty(dificulty));
         dispatch(editCategory(category));
-        weekDays = weekDays.split(',').map(day => day.trim());
+        
         dispatch(editWeekDays(weekDays));
         dispatch(editDescription(description));
         dispatch(getHabitId(habitID));
@@ -64,7 +67,6 @@ function HabitDiv({name, constance, importance, dificulty, category, weekDays, s
     const [openDiv, setOpenDiv] = useState(false);
     function handleOpenDiv(){
         openDiv === false ? setOpenDiv(true) : setOpenDiv(false);
-        
     }
     return(
         <div className="flex flex-col border-solid border-[2px] border-[#0082E1] rounded-[6px] w-[236px] h-[100%] my-2 mx-1">

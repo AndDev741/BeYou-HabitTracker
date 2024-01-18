@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 import coffeIcon from '../../assetsSVG/coffeIcon.svg';
 import importanceIcon from '../../assetsSVG/importanceIcon.svg';
 import categoryIcon from '../../assetsSVG/categoryIcon.svg';
@@ -7,6 +8,7 @@ import dificultyIcon from '../../assetsSVG/dificultyIcon.svg';
 import timeIcon from '../../assetsSVG/timeIcon.svg';
 
 export default function AddHabit(){
+    const navigate = useNavigate();
     let email = useSelector(state => state.login.email);
     let [name, setName] = useState('');
     let [importance, setImportance] = useState('lv1');
@@ -31,22 +33,30 @@ export default function AddHabit(){
     }
     function handleWeekDays(e){
         const { value, checked} = e.target;
-        
         if(checked){
             setWeekDays([...weekDays, value]);
         } else {
             setWeekDays(weekDays.filter((day) => day !== value));
         }
     }
-    console.log(weekDays)
+    const ordenateWeek = {
+        monday: 1,
+        tuesday: 2,
+        wednesday: 3,
+        thursday: 4,
+        friday: 5,
+        saturday: 6,
+        sunday: 7,
+    }
+    let weekDaysOrganized = weekDays.sort((a, b) => ordenateWeek[a] - ordenateWeek[b]);
     function handleDescription(e){
         setDescription(e.target.value);
     }
 
     function handleSubmit(e) {
         e.preventDefault();
-        if(weekDays.length >= 1){
-            weekDays = weekDays.join(', ');
+        if(weekDaysOrganized.length >= 1){
+            weekDaysOrganized = weekDaysOrganized.join(', ');
         }
         const Habitsdata = {
             email: email,
@@ -54,7 +64,7 @@ export default function AddHabit(){
             importance: importance,
             dificulty: dificulty,
             category: category,
-            weekDays: weekDays,
+            weekDays: weekDaysOrganized,
             description: description
         }
         
@@ -74,12 +84,7 @@ export default function AddHabit(){
             } else if(data.success) {
                 setSucess(data.success);
                 setError("");
-                setName('');
-                setCategory('professional');
-                setDescription('');
-                setDificulty('easy');
-                setImportance('lv1');
-                setWeekDays('monday')
+                window.location.reload();
                 }else {
                 setSucess('');
                 setError('Ocorreu um erro inesperado');
@@ -172,15 +177,6 @@ export default function AddHabit(){
                                     <option value='espirito'>Espirito</option>
                                     <option value='esportes'>Esportes</option>
                                     <div className='flex justify-center items-center m-2'>
-                                    <input 
-                                    type='checkbox'
-                                    value="tuesday"
-                                    checked={weekDays.includes('tuesday')}
-                                    onChange={handleWeekDays}
-                                    id='tuesday' 
-                                    className='w-[25px] h-[25px] mr-2 cursor-pointer'
-                                    />                        
-                                    <label htmlFor='tuesday' className="text-2xl cursor-pointer">Terça</label>
                                 </div>
                                 </select>
                             </div>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { editMode } from './habitsSlice';
+import { useNavigate } from 'react-router';
 import coffeIcon from '../../assetsSVG/coffeIcon.svg';
 import importanceIcon from '../../assetsSVG/importanceIcon.svg';
 import categoryIcon from '../../assetsSVG/categoryIcon.svg';
@@ -11,6 +12,7 @@ import deleteIcon from '../../assetsSVG/deleteIcon.svg'
 
 export default function EditHabit(){
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     let email = useSelector(state => state.login.email);
     let Habitname = useSelector(state => state.habits.name);
     let HabitDificulty = useSelector(state => state.habits.dificulty);
@@ -101,6 +103,7 @@ export default function EditHabit(){
             } else if(data.success) {
               setSucess(data.success);
               setError("");
+              window.location.reload();
             }else {
                 setSucess('');
                 setError('Ocorreu um erro inesperado');
@@ -131,12 +134,8 @@ export default function EditHabit(){
                 setError("");
                 setSucess("");
                 setDeleteMessage(data.success);
-                setName("");
-                setImportance("lv1")
-                setDificulty("easy");
-                setCategory("professional");
-                setWeekDays(['monday']);
                 setDescription("");
+                window.location.reload();
             }
         })
       }
