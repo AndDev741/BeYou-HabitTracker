@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
 import coffeIcon from '../../assetsSVG/coffeIcon.svg';
 import importanceIcon from '../../assetsSVG/importanceIcon.svg';
 import categoryIcon from '../../assetsSVG/categoryIcon.svg';
@@ -8,7 +7,6 @@ import dificultyIcon from '../../assetsSVG/dificultyIcon.svg';
 import timeIcon from '../../assetsSVG/timeIcon.svg';
 
 export default function AddHabit(){
-    const navigate = useNavigate();
     let email = useSelector(state => state.login.email);
     let [name, setName] = useState('');
     let [importance, setImportance] = useState('lv1');

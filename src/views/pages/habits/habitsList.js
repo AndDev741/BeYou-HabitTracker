@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux"
 import { editMode, editName, editImportance, editDificulty, editCategory, editWeekDays, editDescription, getHabitId } from "./habitsSlice";
-import EditHabit from "./editHabits";
 import editIcon from '../../assetsSVG/editIcon.svg'
 import fireIcon from '../../assetsSVG/fireIcon.svg'
 export default function HabitsList(){
-    const dispatch = useDispatch();
     let email = useSelector(state => state.login.email);
     const [habitsData, setHabitsData] = useState([]);
     useEffect(() => {
@@ -26,7 +24,7 @@ export default function HabitsList(){
                 console.log('Erro na requisição')
             }
         })
-    }, []);
+    }, [email]);
 
     return(
         <div className="flex flex-col border-solid border-[2px] border-[#0082E1] rounded-[12px] w-[741px] min-h-[600px] ml-2"> 

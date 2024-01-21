@@ -53,7 +53,7 @@ export default function PerfilSettings(){
                 dispatch(img_linkEnter(data.img_link));
             }
             })
-    }, [name, text, constance, author, img_link])
+    }, [name, text, constance, author, img_link, dispatch, email])
     
     useEffect(() => {
         setPerfil({name: name, text: text, constance: constance, author: author, img_link: img_link});

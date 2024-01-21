@@ -4,6 +4,7 @@ import ApexChart from 'react-apexcharts';
 export default function Chart() {
     //Usar redux para transformar esse valor globalmente depois
     let [tasks, setTasks] = useState([15, 10]);
+    
     const options = {
         chart: {
             type: 'donut',

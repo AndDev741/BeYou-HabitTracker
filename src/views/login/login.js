@@ -19,9 +19,6 @@ export default function LoginForm(){
     function handlePass(e){
         setPass(e.target.value)
     }
-    const emailData = {
-        email: email
-    }
     function handleSubmit(e){
         e.preventDefault();
         const formData = {
@@ -44,6 +41,7 @@ export default function LoginForm(){
                 dispatch(isLogged(true));
                 setSucess(data.sucess);
                 setError("");
+                setSucess("Login efetuado com sucesso!")
                 navigate("/dashboard");
             }
         })

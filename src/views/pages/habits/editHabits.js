@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { editMode } from './habitsSlice';
-import { useNavigate } from 'react-router';
 import coffeIcon from '../../assetsSVG/coffeIcon.svg';
 import importanceIcon from '../../assetsSVG/importanceIcon.svg';
 import categoryIcon from '../../assetsSVG/categoryIcon.svg';
@@ -12,7 +11,6 @@ import deleteIcon from '../../assetsSVG/deleteIcon.svg'
 
 export default function EditHabit(){
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     let email = useSelector(state => state.login.email);
     let Habitname = useSelector(state => state.habits.name);
     let HabitDificulty = useSelector(state => state.habits.dificulty);
@@ -40,8 +38,7 @@ export default function EditHabit(){
         setCategory(HabitCategory);
         setWeekDays(HabitWeekDays);
         setDescription(HabitDescription)
-    }, [Habitname, HabitCategory, HabitDescription, HabitDificulty, HabitWeekDays])
-    
+    }, [Habitname, HabitCategory, HabitDescription, HabitDificulty, HabitWeekDays, habitImportance])
     
     function handleName(e){
         setName(e.target.value);
