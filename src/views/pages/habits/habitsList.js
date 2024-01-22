@@ -46,14 +46,14 @@ function HabitDiv({name, constance, importance, dificulty, category, weekDays, s
     const dispatch = useDispatch();
     const isEditMode = useSelector(state => state.habits.editModeOn);
     const [importanceColor, setImportanceColor] = useState('');
-
+    //change here later, bug in colors
     useEffect(() => {
         switch(importance){
             case 'nível 1':
                 setImportanceColor('#0082E1');
                 break;
             case 'nível 2':
-                setImportanceColor("#e7a13c")
+                setImportanceColor("#E7A13C")
                 break;
             case 'nível 3':
                 setImportanceColor("#e7723c")
@@ -65,6 +65,7 @@ function HabitDiv({name, constance, importance, dificulty, category, weekDays, s
                 setImportanceColor("#0082E1")
         }
     }, [importance])
+    console.log(importance)
     
     function dispatchEditMode(){
         if(isEditMode === false){
