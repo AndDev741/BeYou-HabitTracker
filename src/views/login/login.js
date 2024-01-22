@@ -25,7 +25,7 @@ export default function LoginForm(){
             email: email,
             password: pass
         };
-        fetch('http://localhost/ServerPHP/Models/login/loginValidation.php', {
+        fetch('http://localhost/ServerPHP/BeYou-BackEnd/login/loginValidation.php', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(formData)
@@ -64,7 +64,7 @@ export default function LoginForm(){
             <h1 className='text-[35px] ms:text-[40px] text-center font-bold'>Bem vindo <span className='text-[#0082E1]'>de volta!</span></h1>
             <form 
             method='post'
-            action='http://localhost/ServerPHP/Models/login/loginValidation.php' 
+            action='http://localhost/ServerPHP/BeYou-BackEnd/login/loginValidation.php' 
             onSubmit={handleSubmit}
             className='flex flex-col items-center justify-center mt-10'>
                 <div>

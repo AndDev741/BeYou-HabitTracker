@@ -66,7 +66,7 @@ export default function AddHabit(){
             description: description
         }
         
-        fetch('http://localhost/ServerPHP/Models/habits/habitsRegister.php', {
+        fetch('http://localhost/ServerPHP/BeYou-BackEnd/habits/habitsRegister.php', {
           method: "POST",
           headers: {
             'Content-Type': 'application/json',
@@ -100,7 +100,7 @@ export default function AddHabit(){
                 <h2 className="text-3xl font-medium m-4">Adicione um hábito novo</h2>
                 <div className="border-solid border-[1px] border-[#0082E1] w-[100%]"></div>
                 <form className="flex flex-col justify-evenly" id='habitsForm' 
-                action='http://localhost/ServerPHP/Models/habits/habitsRegister.php' onSubmit={handleSubmit}>
+                action='http://localhost/ServerPHP/BeYou-BackEnd/habits/habitsRegister.php' onSubmit={handleSubmit}>
                     <div className='flex my-2'>
                         <div className="flex flex-col mx-2">
                             <label className="text-2xl text-blueFont font-medium my-2" 

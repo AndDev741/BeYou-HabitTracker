@@ -35,7 +35,7 @@ export default function PerfilSettings(){
     }
     //Requisição dos dados
     useEffect(() => {
-            fetch('http://localhost/ServerPHP/Models/perfil/getData.php', {
+            fetch('http://localhost/ServerPHP/BeYou-BackEnd/perfil/getData.php', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({email: email})
@@ -67,7 +67,7 @@ export default function PerfilSettings(){
         e.preventDefault();
         name = perfilName;
         let data = {name: name, email: email};
-        fetch('http://localhost/ServerPHP/Models/perfil/changeData.php/changeName.php', {
+        fetch('http://localhost/ServerPHP/BeYou-BackEnd/perfil/changeData.php/changeName.php', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(data)
@@ -92,7 +92,7 @@ export default function PerfilSettings(){
         text = perfilText;
         author = perfilAuthor;
         let data = {text: text, author: author, email: email};
-        fetch('http://localhost/ServerPHP/Models/perfil/changeData.php/changeText.php', {
+        fetch('http://localhost/ServerPHP/BeYou-BackEnd/perfil/changeData.php/changeText.php', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(data)
@@ -116,7 +116,7 @@ export default function PerfilSettings(){
         e.preventDefault();
         img_link = perfilImg_link;
         let data = {img_link: img_link, email: email};
-        fetch('http://localhost/ServerPHP/Models/perfil/changeData.php/changeIMG_LINK.php', {
+        fetch('http://localhost/ServerPHP/BeYou-BackEnd/perfil/changeData.php/changeIMG_LINK.php', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(data)

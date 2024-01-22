@@ -85,7 +85,7 @@ export default function EditHabit(){
             description: description
         }
         //edit
-        fetch('http://localhost/ServerPHP/Models/habits/editHabits.php', {
+        fetch('http://localhost/ServerPHP/BeYou-BackEnd/habits/editHabits.php', {
           method: "POST",
           headers: {
             'Content-Type': 'application/json',
@@ -113,7 +113,7 @@ export default function EditHabit(){
       //delete
       function handleDelete(e){
         e.preventDefault();
-        fetch('http://localhost/ServerPHP/Models/habits/deleteHabit.php', {
+        fetch('http://localhost/ServerPHP/BeYou-BackEnd/habits/deleteHabit.php', {
           method: "POST",
           headers: {
             'Content-Type': 'application/json',
@@ -146,7 +146,7 @@ export default function EditHabit(){
     return(
             <div className="flex flex-col items-center border-solid border-[2px] border-[#0082E1] rounded-[12px] w-[500px] mr-4">
                 <div className='flex w-[100%] justify-between items-center'>
-                <button onClick={dispatchEditMode} action="http://localhost/ServerPHP/Models/habits/deleteHabit.php">
+                <button onClick={dispatchEditMode} action="http://localhost/ServerPHP/BeYou-BackEnd/habits/editHabits.php">
                     <img src={backFormIcon} alt="coffe icon" className="w-[40px] h-[40px] ml-2 mt-2" />
                 </button>
                 <p className='text-[18px] sm:text-xl text-center text-[#0082E1] underline font-bold mb-2'>{deleteMessage}</p>

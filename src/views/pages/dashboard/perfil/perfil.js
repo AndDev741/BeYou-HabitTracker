@@ -24,7 +24,7 @@ export default function Perfil(){
     }, halfMinute);
     
     useEffect(() => {
-        fetch('http://localhost/ServerPHP/Models/perfil/getData.php', {
+        fetch('http://localhost/ServerPHP/BeYou-BackEnd/perfil/getData.php', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({email: email})

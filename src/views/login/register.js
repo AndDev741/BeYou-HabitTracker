@@ -38,7 +38,7 @@ export default function RegisterForm(){
           password: pass,
         };
     
-        fetch('http://localhost/ServerPHP/Models/login/registerValidation.php', {
+        fetch('http://localhost/ServerPHP/BeYou-BackEnd/login/registerValidation.php', {
           method: "POST",
           headers: {
             'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ export default function RegisterForm(){
     return(
         <div className='flex flex-col items-center justify-center mt-4'>
             <h1 className='text-[30px] ms:text-[35px] text-center font-bold'>Se registre <span className='text-[#0082E1]'>e organize melhor sua vida!</span></h1>
-            <form method='post' action='http://localhost/ServerPHP/Models/login/registerValidation.php'
+            <form method='post' action='http://localhost/ServerPHP/BeYou-BackEnd/login/registerValidation.php'
             onSubmit={handleSubmit}
             className='flex flex-col items-center justify-center my-3'>
                 <div>

@@ -7,7 +7,7 @@ export default function HabitsList(){
     let email = useSelector(state => state.login.email);
     const [habitsData, setHabitsData] = useState([]);
     useEffect(() => {
-        fetch('http://localhost/ServerPHP/Models/habits/getHabitsData.php', {
+        fetch('http://localhost/ServerPHP/BeYou-BackEnd/habits/getHabitsData.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
