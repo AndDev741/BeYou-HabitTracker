@@ -44,6 +44,7 @@ export default function AddEditCategory(){
                 setError("");
                 setName("");
                 setSuccess(data.success);
+                window.location.reload();
             }
         });
     }
