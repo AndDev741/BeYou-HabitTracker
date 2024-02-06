@@ -36,7 +36,7 @@ export default function CategoriesList(){
                         categoriesData.map((category, index) => (
                             <CategoryDiv key={index} name={category.name} icon={category.icon_index} level={category.level} xp={category.xp} id={category.id}/>
                     ))) : (
-                        <h2 className="m-4 text-2xl text-blueFont">Seus hábitos irão aparecer aqui assim que criados!</h2>
+                        <h2 className="m-4 text-2xl text-blueFont">Suas categorias irão aparecer aqui assim que criadas!</h2>
                     )}
                 </div>
                 

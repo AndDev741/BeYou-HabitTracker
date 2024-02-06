@@ -16,7 +16,6 @@ export default function AddEditCategory(){
     const editName = useSelector(state => state.categories.name);
     const editIcon = useSelector(state => state.categories.icon_index);
     const editLevel = useSelector(state => state.categories.level);
-    const editXp = useSelector(state => state.categories.xp);
     const categoryId = useSelector(state => state.categories.id);
     //Add
     const [name, setName] = useState('');
@@ -106,6 +105,31 @@ export default function AddEditCategory(){
         });
         }
     }
+
+    function handleDelete(e){
+        e.preventDefault();
+        fetch('http://localhost/ServerPHP/BeYou-BackEnd/categories/deleteCategory.php', {
+            method: 'POST',
+            headers: {'Content-Type': 'aplication/json'},
+            body: JSON.stringify({'id': categoryId})
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            if(data.error){
+                setError('');
+                setSuccess('');
+                setError(data.error);
+            }else if(data.success){
+                setError("");
+                setSuccess(data.success);
+                window.location.reload();
+            }else{
+                setError("");
+                setSuccess("");
+                setError("Erro o enviar solicitação");
+            }
+        })
+    }
     return(
         <div className="flex flex-col items-center border-solid border-[2px] border-[#0082E1] rounded-[12px] w-[500px] mr-4">
             {editModeOn === true ? (
@@ -113,9 +137,11 @@ export default function AddEditCategory(){
                     <button onClick={dispatchEditMode}>
                         <img src={backFormIcon} alt="coffe icon" className="w-[40px] h-[40px] ml-2 mt-2" />
                     </button>
-                    <button>
-                        <img src={deleteIcon} alt="coffe icon" className="w-[40px] h-[40px] mr-2 mt-2" />
-                    </button>
+                    <form onSubmit={handleDelete} action="http://localhost/ServerPHP/BeYou-BackEnd/categories/deleteCategory.php">
+                        <button>
+                            <img src={deleteIcon} alt="coffe icon" className="w-[40px] h-[40px] mr-2 mt-2" />
+                        </button>
+                    </form>
                 </div>
             ) : null}
             <h1 className="text-2xl font-semibold mt-2">
