@@ -65,7 +65,6 @@ function HabitDiv({name, constance, importance, dificulty, category, weekDays, s
                 setImportanceColor("#0082E1")
         }
     }, [importance])
-    console.log(importance)
     
     function dispatchEditMode(){
         if(isEditMode === false){

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import coffeIcon from '../../assetsSVG/coffeIcon.svg';
 import importanceIcon from '../../assetsSVG/importanceIcon.svg';
@@ -8,14 +8,34 @@ import timeIcon from '../../assetsSVG/timeIcon.svg';
 
 export default function AddHabit(){
     let email = useSelector(state => state.login.email);
+    let [categoriesData, setCategoriesData] = useState('');
     let [name, setName] = useState('');
     let [importance, setImportance] = useState('lv1');
     let [dificulty, setDificulty] = useState('easy');
-    let [category, setCategory] = useState('professional');
+    let [category, setCategory] = useState('');
     let [weekDays, setWeekDays] = useState(['Segunda']);
     let [description, setDescription] = useState('');
     const [error, setError] = useState('');
     const [success, setSucess] = useState('');
+    const [categoryId, categoryName] = category.split(',');
+
+    //Get categories
+    useEffect(() => {
+        fetch("http://localhost/ServerPHP/BeYou-BackEnd/categories/getCategories.php", {
+            method: "POST",
+            headers: {"Content-Type": "aplication/json"},
+            body: JSON.stringify({email: email})
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            if(data.error){
+                setError(data.error);
+            }else{
+                data = data.data
+                setCategoriesData(data);
+            }
+        })
+    }, [])
     
     function handleName(e){
         setName(e.target.value);
@@ -37,6 +57,10 @@ export default function AddHabit(){
             setWeekDays(weekDays.filter((day) => day !== value));
         }
     }
+    function handleDescription(e){
+        setDescription(e.target.value);
+    }
+
     const ordenateWeek = {
         Segunda: 1,
         Terça: 2,
@@ -47,12 +71,10 @@ export default function AddHabit(){
         Domingo: 7,
     }
     let weekDaysOrganized = weekDays.sort((a, b) => ordenateWeek[a] - ordenateWeek[b]);
-    function handleDescription(e){
-        setDescription(e.target.value);
-    }
 
     function handleSubmit(e) {
         e.preventDefault();
+        //Possível bug aqui ao tentar muitos erros
         if(weekDaysOrganized.length >= 1){
             weekDaysOrganized = weekDaysOrganized.join(', ');
         }
@@ -61,7 +83,8 @@ export default function AddHabit(){
             name: name,
             importance: importance,
             dificulty: dificulty,
-            category: category,
+            categoryName: categoryName,
+            categoryId: categoryId,
             weekDays: weekDaysOrganized,
             description: description
         }
@@ -77,14 +100,15 @@ export default function AddHabit(){
           .then((data) => {
             if (data.error) {
                 setError('');
-                setError(data.error);
                 setSucess("");
+                setError(data.error);
             } else if(data.success) {
-                setSucess(data.success);
                 setError("");
+                setSucess(data.success);
                 window.location.reload();
                 }else {
                 setSucess('');
+                setError('');
                 setError('Ocorreu um erro inesperado');
             }
           })
@@ -169,13 +193,13 @@ export default function AddHabit(){
                                 <select name='importance' id='importance' form='habitsForm' 
                                 value={category}
                                 onChange={handleCategory}
-                                className='text-2xl mx-3 my-[9px]'>
-                                    <option value='professional'>Professional</option>
-                                    <option value='estudos'>Estudos</option>
-                                    <option value='espirito'>Espirito</option>
-                                    <option value='esportes'>Esportes</option>
-                                    <div className='flex justify-center items-center m-2'>
-                                </div>
+                                className='text-2xl mx-3 my-[9px] max-w-[200px]'>
+                                    <option value=""></option>
+                                    {categoriesData.length > 0 ? (
+                                        categoriesData.map((category) => (
+                                            <option value={`${category.id},${category.name}`}>{category.name}</option>
+                                        ))
+                                    ) : null}
                                 </select>
                             </div>
                         </div>
