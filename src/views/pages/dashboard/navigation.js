@@ -17,10 +17,12 @@ export default function Navigation(){
                 </Link>
             </div>
             <div className="border-solid border-[2px] border-[#0082E1] rounded-[6px] w-[169px] h-[50px] mt-5 ">
-                <button className='flex items-center mt-[6px]'>
-                    <img alt='to-do list' src={tasksIcon} className="w-[35px] ml-2" />
-                    <p className='text-[20px] font-medium ml-3'>Tarefas</p>
-                </button>
+                <Link to="/tasks">
+                    <button className='flex items-center mt-[6px]'>
+                        <img alt='to-do list' src={tasksIcon} className="w-[35px] ml-2" />
+                        <p className='text-[20px] font-medium ml-3'>Tarefas</p>
+                    </button>
+                </Link> 
             </div>
             <div className="border-solid border-[2px] border-[#0082E1] rounded-[6px] w-[169px] h-[50px] mt-5 ">
                 <button className='flex items-center mt-[6px]'>

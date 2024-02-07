@@ -5,6 +5,7 @@ import Dashboard from './views/pages/dashboard/dashboard';
 import Settings from './views/pages/settings/settings';
 import HabitsRender from './views/pages/habits/habitsRender';
 import CategoriesRender from './views/pages/categories/categoriesRender';
+import TasksRender from './views/pages/tasks/taksRender';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path='/settings' element={<Settings/>} />
           <Route path='/habits' element={<HabitsRender/>} />
           <Route path='/categories' element={<CategoriesRender/>} />
+          <Route path='/tasks' element={<TasksRender/>} />
         </Routes>
       </div>
     </BrowserRouter>

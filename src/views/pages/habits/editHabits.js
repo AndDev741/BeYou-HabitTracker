@@ -15,30 +15,47 @@ export default function EditHabit(){
     let Habitname = useSelector(state => state.habits.name);
     let HabitDificulty = useSelector(state => state.habits.dificulty);
     let HabitCategory = useSelector(state => state.habits.category);
-    let HabitDescription = useSelector(state => state.habits.description);
-    let HabitWeekDays = useSelector(state => state.habits.weekDays);    
+    let HabitDescription = useSelector(state => state.habits.description);   
     let habitImportance = useSelector(state => state.habits.importance);
     let habitID = useSelector(state => state.habits.id);
-
+    console.log(HabitCategory)
+    let [categoriesData, setCategoriesData] = useState('');
     const [error, setError] = useState('');
     const [success, setSucess] = useState('');
-    const [deleteMessage, setDeleteMessage] = useState("");
-    let [weekDays, setWeekDays] = useState([]);
+    const [deleteMessage, setDeleteMessage] = useState('');
     const [name, setName] = useState('');
     const [importance, setImportance] = useState('');
     const [dificulty, setDificulty] = useState('');
     const [category, setCategory] = useState('');
     const [description, setDescription] = useState('');
+   
 
+    //Get categories
+    useEffect(() => {
+        fetch("http://localhost/ServerPHP/BeYou-BackEnd/categories/getCategories.php", {
+            method: "POST",
+            headers: {"Content-Type": "aplication/json"},
+            body: JSON.stringify({email: email})
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            if(data.error){
+                setError(data.error);
+            }else{
+                data = data.data
+                setCategoriesData(data);
+            }
+        })
+    }, [])
+
+    //Update the inputs
     useEffect(() => { 
-        console.log('reste');
         setName(Habitname);
         setImportance(habitImportance);
         setDificulty(HabitDificulty);
         setCategory(HabitCategory);
-        setWeekDays(HabitWeekDays);
         setDescription(HabitDescription)
-    }, [Habitname, HabitCategory, HabitDescription, HabitDificulty, HabitWeekDays, habitImportance])
+    }, [Habitname, HabitCategory, HabitDescription, HabitDificulty, habitImportance])
     
     function handleName(e){
         setName(e.target.value);
@@ -52,14 +69,6 @@ export default function EditHabit(){
     function handleCategory(e){
         setCategory(e.target.value);
     }
-    function handleWeekDays(e){
-        const { value, checked} = e.target;
-        if(checked){
-            setWeekDays([...weekDays, value]);
-        } else {
-            setWeekDays(weekDays.filter((day) => day !== value));
-        }
-    }
     function handleDescription(e){
         setDescription(e.target.value);
     }   
@@ -70,10 +79,9 @@ export default function EditHabit(){
             dispatch(editMode(false));
         }
     }
-
+    
     function handleSubmit(e) {
         e.preventDefault();
-        weekDays = weekDays.join(', ');
         const Habitsdata = {
             email: email,
             habitID: habitID,
@@ -81,7 +89,6 @@ export default function EditHabit(){
             importance: importance,
             dificulty: dificulty,
             category: category,
-            weekDays: weekDays,
             description: description
         }
         //edit
@@ -225,119 +232,19 @@ export default function EditHabit(){
                                 <select name='importance' id='importance' form='habitsForm' 
                                 value={category}
                                 onChange={handleCategory}
-                                className='text-2xl mx-3 my-[9px]'>
-                                    <option value='professional'>Professional</option>
-                                    <option value='estudos'>Estudos</option>
-                                    <option value='espirito'>Espirito</option>
-                                    <option value='esportes'>Esportes</option>
-                                    <div className='flex justify-center items-center m-2'>
-                                    <input 
-                                    type='checkbox'
-                                    value="tuesday"
-                                    checked={weekDays.includes('tuesday')}
-                                    onChange={handleWeekDays}
-                                    id='tuesday' 
-                                    className='w-[25px] h-[25px] mr-2 cursor-pointer'
-                                    />                        
-                                    <label htmlFor='tuesday' className="text-2xl cursor-pointer">Terça</label>
-                                </div>
+                                className='text-2xl mx-3 my-[9px] max-w-[200px]'>
+                                    <option value=""></option>
+                                    {categoriesData.length > 0 ? (
+                                        categoriesData.map((category) => (
+                                            <option value={`${category.id},${category.name}`}>{category.name}</option>
+                                        ))
+                                    ) : null}
                                 </select>
                             </div>
                         </div>
                     </div>
-                    <div className='flex justify-center my-3'>
-                        <img src={timeIcon} alt="time icon" className="w-[40px] h-[40px] mx-2" />
-                        <h1 className='text-3xl'>Dias da semana</h1>
-                    </div>
-                    <div className='flex justify-center'>
-                        <div className="flex flex-col mx-2 border-solid border-2 border-[#0082E1] rounded-[6px] w-[100%]">
-                            <div className='flex justify-evenly items-center w-[100%] '>
-                                <div className='flex justify-start items-center m-2'>
-                                    <input 
-                                    type='checkbox'
-                                    value="Segunda"
-                                    checked={weekDays.includes('Segunda')}
-                                    onChange={handleWeekDays}
-                                    id='Segunda' 
-                                    className='w-[25px] h-[25px] mr-2 cursor-pointer'
-                                    />                        
-                                    <label htmlFor='Segunda' className="text-2xl cursor-pointer" >Segunda</label>
-                                </div>
-                                <div className='flex justify-center items-center m-2'>
-                                    <input 
-                                    type='checkbox'
-                                    value="Terça"
-                                    checked={weekDays.includes('Terça')}
-                                    onChange={handleWeekDays}
-                                    id='Terça' 
-                                    className='w-[25px] h-[25px] mr-2 cursor-pointer'
-                                    />                        
-                                    <label htmlFor='Terça' className="text-2xl cursor-pointer">Terça</label>
-                                </div>
-                                <div className='flex justify-center items-center m-2'>
-                                    <input 
-                                    type='checkbox'
-                                    value="Quarta"
-                                    checked={weekDays.includes('Quarta')}
-                                    onChange={handleWeekDays}
-                                    id='Quarta' 
-                                    className='w-[25px] h-[25px] mr-2 cursor-pointer'
-                                    />                        
-                                    <label htmlFor='Quarta' className="text-2xl cursor-pointer">Quarta</label>
-                                </div>
-                            </div>
-                            <div className='flex justify-evenly items-center w-[100%] '>
-                                <div className='flex justify-center items-center m-2'>
-                                    <input 
-                                    type='checkbox'
-                                    value="Quinta"
-                                    checked={weekDays.includes('Quinta')}
-                                    onChange={handleWeekDays}
-                                    id='Quinta' 
-                                    className='w-[25px] h-[25px] mr-2 cursor-pointer'
-                                    />                        
-                                    <label htmlFor='Quinta' className="text-2xl cursor-pointer">Quinta</label>
-                                </div>
-                                <div className='flex justify-center items-center m-2'>
-                                    <input 
-                                    type='checkbox'
-                                    value="Sexta"
-                                    checked={weekDays.includes('Sexta')}
-                                    onChange={handleWeekDays}
-                                    id='Sexta' 
-                                    className='w-[25px] h-[25px] mr-2 cursor-pointer'
-                                    />                        
-                                    <label htmlFor='Sexta' className="text-2xl cursor-pointer">Sexta</label>
-                                </div>
-                                <div className='flex justify-center items-center m-2'>
-                                    <input 
-                                    type='checkbox'
-                                    value="Sábado"
-                                    checked={weekDays.includes('Sábado')}
-                                    onChange={handleWeekDays}
-                                    id='Sábado' 
-                                    className='w-[25px] h-[25px] mr-2 cursor-pointer'
-                                    />                        
-                                    <label htmlFor='Sábado' className="text-2xl cursor-pointer">Sábado</label>
-                                </div>
-                            </div>
-                            <div className='flex justify-center w-[100%] '>
-                                <div className='flex justify-center items-center m-2'>
-                                    <input 
-                                    type='checkbox'
-                                    value="Domingo"
-                                    checked={weekDays.includes('Domingo')}
-                                    onChange={handleWeekDays}
-                                    id='Domingo' 
-                                    className='w-[25px] h-[25px] mr-2 cursor-pointer'
-                                    />                        
-                                    <label htmlFor='Domingo' className="text-2xl cursor-pointer">Domingo</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="flex flex-col mx-2">
-                            <label className="text-2xl text-blueFont font-medium my-2" 
+                    <div className="flex flex-col mx-2 my-2">
+                            <label className="text-center text-2xl text-blueFont font-medium my-2" 
                             htmlFor="name">Descrição</label>
                             <div className='flex items-center w-[100%] border-solid border-2 border-[#0082E1] rounded-[6px]'>
                                 <textarea 

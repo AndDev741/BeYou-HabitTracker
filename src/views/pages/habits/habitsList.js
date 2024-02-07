@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux"
-import { editMode, editName, editImportance, editDificulty, editCategory, editWeekDays, editDescription, getHabitId } from "./habitsSlice";
+import { editMode, editName, editImportance, editDificulty, editCategory, editDescription, getHabitId } from "./habitsSlice";
 import editIcon from '../../assetsSVG/editIcon.svg'
 import fireIcon from '../../assetsSVG/fireIcon.svg'
 export default function HabitsList(){
@@ -25,14 +25,13 @@ export default function HabitsList(){
             }
         })
     }, [email]);
-
     return(
         <div className="flex flex-col border-solid border-[2px] border-[#0082E1] rounded-[12px] w-[741px] min-h-[600px] ml-2"> 
             <h1 className="text-3xl font-medium m-4">Seus hábitos</h1>
             <div className="flex flex-wrap">
                 {habitsData.length > 0 ? (
                     habitsData.map((habit) => (
-                        <HabitDiv key={habit.id} name={habit.name} importance={habit.importance} dificulty={habit.dificulty} constance={habit.frequency} category={habit.category} weekDays={habit.weekdays} startDate={habit.startdate} description={habit.description} habitID={habit.id}/>
+                        <HabitDiv key={habit.id} name={habit.name} importance={habit.importance} dificulty={habit.dificulty} constance={habit.frequency} startDate={habit.startdate} description={habit.description} habitID={habit.id} categoryName={habit.category} categoryId={habit.category_id}/>
                     ))
                 ) : (
                     <h2 className="m-4 text-2xl text-blueFont">Seus hábitos irão aparecer aqui assim que criados!</h2>
@@ -42,7 +41,7 @@ export default function HabitsList(){
     )
 }
 
-function HabitDiv({name, constance, importance, dificulty, category, weekDays, startDate, description, habitID}){
+function HabitDiv({name, constance, importance, dificulty, startDate, description, habitID, categoryName, categoryId}){
     const dispatch = useDispatch();
     const isEditMode = useSelector(state => state.habits.editModeOn);
     const [importanceColor, setImportanceColor] = useState('');
@@ -68,18 +67,16 @@ function HabitDiv({name, constance, importance, dificulty, category, weekDays, s
     
     function dispatchEditMode(){
         if(isEditMode === false){
-            dispatch(editMode(true));
-            weekDays = weekDays.split(',').map(day => day.trim());
+            dispatch(editMode(true));       
         }
-        console.log(isEditMode)
         dispatch(editName(name));
         dispatch(editImportance(importance));
         dispatch(editDificulty(dificulty));
-        dispatch(editCategory(category));
-        dispatch(editWeekDays(weekDays));
+        dispatch(editCategory([categoryId, categoryName]));
         dispatch(editDescription(description));
         dispatch(getHabitId(habitID));
     }
+    
 
     const [openDiv, setOpenDiv] = useState(false);
     function handleOpenDiv(){
@@ -99,9 +96,8 @@ function HabitDiv({name, constance, importance, dificulty, category, weekDays, s
             <div className={`${openDiv === false ? 'hidden' : 'block'}`}>
                 <div className="m-2">
                     <ul>
-                        <li className="text-lg font-medium">Categoria: <span className="text-blueFont font-bold">{category}</span></li>
+                        <li className="text-lg font-medium">Categoria: <span className="text-blueFont font-bold">{categoryName}</span></li>
                         <li className="text-lg font-medium">Dificuldade: <span className="text-blueFont font-bold">{dificulty}</span></li>
-                        <li className="text-lg font-medium">Frequência: <span className="text-blueFont font-bold">{weekDays}</span></li>
                         <li className="text-lg font-medium">Data de começo: <span className="text-blueFont font-bold">{startDate}</span></li>
                         <li className={`${description.length > 1 ? 'block' : 'hidden'} text-lg font-medium`}>Descrição: <span className="text-blueFont font-bold">{description}</span></li>
                     </ul>
