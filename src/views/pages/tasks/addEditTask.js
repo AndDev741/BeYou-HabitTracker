@@ -62,7 +62,19 @@ export default function AddEditTasks(){
         })
         .then((response) => response.json())
         .then((data) => {
-            console.log(data);
+            if(data.error){
+                setSuccess("");
+                setError("")
+                setError(data.error);
+            }else if(data.success){
+                setSuccess("");
+                setError("")
+                setSuccess(data.success);
+                window.location.reload();
+
+            }else{
+                setError("Ocorreu um erro inesperado");
+            }
         })
     }
 
