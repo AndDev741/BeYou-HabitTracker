@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { editMode, editName, editImportance, editDificulty, editCategory, editDescription, getHabitId } from "./habitsSlice";
 import editIcon from '../../assetsSVG/editIcon.svg'
 import fireIcon from '../../assetsSVG/fireIcon.svg'
+
 export default function HabitsList(){
     let email = useSelector(state => state.login.email);
     const [habitsData, setHabitsData] = useState([]);

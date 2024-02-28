@@ -6,15 +6,14 @@ const initialState = {
     importance: '',
     dificulty: '',
     category: '',
-    weekDays: '',
     description: '',
     id: '',
     status: 'idle',
     error: null,
 }
 
-const habitsSlice = createSlice({
-    name: 'habits',
+const tasksSlice = createSlice({
+    name: 'tasks',
     initialState,
     reducers: {
         editMode(state, action){
@@ -45,12 +44,12 @@ const habitsSlice = createSlice({
             const description = action.payload;
             state.description = description;
         },
-        getHabitId(state, action){
+        getTaskId(state, action){
             const id = action.payload;
             state.id = id
         }
     }
 })
 
-export const { editMode, editName, editImportance, editDificulty, editCategory, editWeekDays, editDescription, getHabitId } = habitsSlice.actions;
-export default habitsSlice.reducer;
+export const { editMode, editName, editImportance, editDificulty, editCategory, editWeekDays, editDescription, getTaskId } = tasksSlice.actions;
+export default tasksSlice.reducer;

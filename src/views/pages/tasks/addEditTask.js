@@ -1,11 +1,15 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import {editMode} from './tasksSlice';
 import { useEffect, useState } from 'react';
 import taskNameIcon from '../../assetsSVG/taskNameIcon.svg';
 import importanceIcon from '../../assetsSVG/importanceIcon.svg';
 import categoryIcon from '../../assetsSVG/categoryIcon.svg';
 import dificultyIcon from '../../assetsSVG/dificultyIcon.svg';
+import backFormIcon from '../../assetsSVG/backFormIcon.svg'
+import deleteIcon from '../../assetsSVG/deleteIcon.svg'
 
 export default function AddEditTasks(){
+    const dispatch = useDispatch();
     const email = useSelector(state => state.login.email);
     const [categoriesData, setCategoriesData] = useState([]);
     const [name, setName] = useState("");
@@ -15,6 +19,30 @@ export default function AddEditTasks(){
     const [description, setDescription] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
+    console.log(category)
+    //EDIT
+    const tasks = useSelector(state => state.tasks);
+    useEffect(() => {
+        if(tasks.editModeOn === true){
+            setName(tasks.name);
+            setImportance(tasks.importance);
+            setDificulty(tasks.dificulty);
+            let newCategory = tasks.category
+            setCategory(newCategory.join(","));
+            setDescription(tasks.description);
+        }
+    }, [tasks])
+    //
+
+    function handleBackForm(){
+        dispatch(editMode(false));
+        setName("");
+        setImportance("nível 1");
+        setDificulty("Fácil");
+        setCategory("");
+        setDescription("");
+    }
+
 
     function handleInputChange(e, setter){
         setter(e.target.value)
@@ -53,27 +81,83 @@ export default function AddEditTasks(){
             categoryName: category.split(',')[1],
             categoryId: category.split(',')[0],
             description: description,
+            taskId: tasks.id
         }
 
-        fetch('http://localhost/ServerPHP/BeYou-BackEnd/tasks/addTask.php', {
+        if(tasks.editModeOn === true){
+            fetch("http://localhost/ServerPHP/BeYou-BackEnd/tasks/editTasks.php", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json'},
+                body: JSON.stringify(formData)
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                if(data.error){
+                    setSuccess("");
+                    setError("");
+                    setError(data.error)
+                }
+                else if(data.success){
+                    setSuccess("");
+                    setError("");
+                    setSuccess(data.success);
+                    window.location.reload();
+                }
+                else{
+                    setSuccess("");
+                    setError("");
+                    setError("Ocorreu um erro desconhecido");
+                }
+            })
+        }else{
+
+            fetch('http://localhost/ServerPHP/BeYou-BackEnd/tasks/addTask.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(formData)
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                if(data.error){
+                    setSuccess("");
+                    setError("")
+                    setError(data.error);
+                }else if(data.success){
+                    setSuccess("");
+                    setError("")
+                    setSuccess(data.success);
+                    window.location.reload();
+
+                }else{
+                    setError("Ocorreu um erro inesperado");
+                }
+            })
+        }
+    }
+
+    function handleDelete(e){
+        e.preventDefault();
+        fetch('http://localhost/ServerPHP/BeYou-BackEnd/tasks/deleteTask.php', {
             method: 'POST',
-            headers: {'Content-Type': 'aplication/json'},
-            body: JSON.stringify(formData)
+            header: { 'Content-type': 'application/json'},
+            body: JSON.stringify({taskId: tasks.id})
         })
         .then((response) => response.json())
         .then((data) => {
             if(data.error){
                 setSuccess("");
-                setError("")
+                setError("");
                 setError(data.error);
-            }else if(data.success){
+            }
+            else if(data.success){
                 setSuccess("");
-                setError("")
+                setError("");
                 setSuccess(data.success);
                 window.location.reload();
-
             }else{
-                setError("Ocorreu um erro inesperado");
+                setSuccess("");
+                setError("");
+                setError("Ocorreu um erro desconhecido")
             }
         })
     }
@@ -82,7 +166,28 @@ export default function AddEditTasks(){
 
     return(
         <div className="flex flex-col items-center border-solid border-[2px] border-[#0082E1] rounded-[12px] w-[500px]  min-h-[550px] mr-4">
-            <h2 className="text-3xl font-medium m-4">Crie uma nova tarefa</h2>
+
+            {tasks.editModeOn === true ? 
+                <div>
+                    <div className='flex w-[100%] justify-between items-center'>
+                    <button onClick={handleBackForm}>
+                        <img src={backFormIcon} alt="coffe icon" className="w-[40px] h-[40px] ml-2 mt-2" />
+                    </button>
+
+                    <p className='text-[18px] sm:text-xl text-center text-[#e15200] underline font-bold'>{error}</p>
+                    <p className='text-[18px] sm:text-xl text-center text-[#0082E1] underline font-bold mb-2'>{success}</p>
+
+                    <p className='text-[18px] sm:text-xl text-center text-[#0082E1] underline font-bold mb-2'></p>
+                    <form onSubmit={handleDelete} action={'http://localhost/ServerPHP/BeYou-BackEnd/tasks/deleteTask.php'}>
+                        <button><img src={deleteIcon} alt="coffe icon" className="w-[40px] h-[40px] mr-2 mt-2" /></button>
+                    </form>
+                    </div>
+                    <h2 className="text-3xl font-medium m-4 text-center">Editando a tarefa <span className='text-blueFont'>{tasks.name}</span></h2>
+                </div>
+                 : 
+                <h2 className="text-3xl font-medium m-4">Crie uma nova tarefa</h2>
+            }
+
             <div className="border-solid border-[1px] border-[#0082E1] w-[100%]"></div>
             <form onSubmit={handleSubmit} action="http://localhost/ServerPHP/BeYou-BackEnd/tasks/addTask.php">
                 <div className='flex mt-2'>
@@ -147,7 +252,7 @@ export default function AddEditTasks(){
                 <div className='flex justify-center my-4'>
                     <input 
                         type='submit' 
-                        value="Criar nova tarefa"
+                        value={`${tasks.editModeOn === true ? 'Editar tarefa' : 'Criar tarefa'}`}
                         className='w-[246px] h-[53px] text-white text-2xl font-bold bg-[#0082E1] rounded-[12px] cursor-pointer'
                     />
                 </div>
